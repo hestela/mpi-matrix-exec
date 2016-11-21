@@ -8,7 +8,7 @@ pub struct Options {
 
 macro_rules! get_ver {
   () => (
-    "URBS Version: ".to_string() + &env!("CARGO_PKG_VERSION").to_string()
+    "Version: ".to_string() + &env!("CARGO_PKG_VERSION").to_string()
   )
 }
 
@@ -17,7 +17,7 @@ pub fn parse_opts() -> Options {
 
   {
   let mut parser = ArgumentParser::new();
-  parser.set_description("URBS: Univeral Rust Build System");
+  parser.set_description("MPI matrix exec: Run mpi with matrix of settings");
   parser.refer(&mut opts.verbose)
     .add_option(&["-v", "--verbose"], StoreTrue,
                                   "Be verbose");
