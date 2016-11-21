@@ -1,0 +1,11 @@
+Name: osu_mbw_mr
+MPI: openmpi
+envvars:
+  - PSM_TRACEMASK=0x101
+  - PSM_TRACEMASK=0x1c3
+runopts:
+  - "-mca mtl psm -mca pml cm"
+# Not sure why they have to be in quotes
+np:
+  - "2"
+  - "4"

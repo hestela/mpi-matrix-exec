@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use std::fmt::Display;
 use yaml_rust::{Yaml, yaml};
 
 pub fn find_yaml_path(path: PathBuf) -> Option<PathBuf> {
@@ -13,17 +14,30 @@ pub fn find_yaml_path(path: PathBuf) -> Option<PathBuf> {
   }
 }
 
-pub fn yaml_to_cmds(yaml: &Yaml) -> Vec<String> {
+pub fn get_yaml_vec(yaml: &Yaml) -> Option<Vec<String>> {
   match yaml {
     &yaml::Yaml::Array(ref v) => {
-      v.into_iter().map(|x| x.as_str().unwrap_or("")).filter(|x| x.len() > 0);
+      Some(v.into_iter().map(|x| x.clone().into_string().unwrap_or(String::new())).filter(|x| x.len() > 0).collect())
     },
     &yaml::Yaml::Hash(_) => {
       println!("ERROR: Commands should be a yaml array, not a hash");
+      None
     },
     _ => {
-      println!("ERROR: Unkown input type for command");
+      println!("ERROR: Wrong input type");
+      None
     }
   }
-  Vec::<String>::new()
+}
+
+pub fn get_yaml_str(yaml: &Yaml) -> Option<String> {
+  match yaml {
+    &yaml::Yaml::String(ref v) => {
+      Some(v.clone())
+    },
+    _ => {
+      println!("ERROR: Wrong input type");
+      None
+    }
+  }
 }

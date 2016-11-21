@@ -2,7 +2,7 @@ extern crate argparse;
 extern crate yaml_rust;
 
 pub mod parse;
-pub mod build;
+pub mod mpiexec;
 pub mod cmderror;
 pub mod yamlutils;
 pub mod debug;
@@ -24,4 +24,7 @@ fn main() {
       None => std::process::exit(1),
       _ => yaml_path_maybe.unwrap()
     };
+
+    let mpiexec = mpiexec::MpiExec::new(&yaml_path);
+    verbose!(println!("YAML options: {}", mpiexec), opts);
 }

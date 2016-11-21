@@ -1,6 +1,6 @@
-use build::Build;
+use mpiexec::MpiExec;
 
 pub struct CmdError {
-  build: Build,
+  mpiexec: MpiExec,
   err_str: String
 }
