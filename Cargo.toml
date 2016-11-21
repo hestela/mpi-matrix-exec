@@ -1,0 +1,8 @@
+[package]
+name = "MpiMatrixExec"
+version = "0.1.0"
+authors = ["Henry Estela <henryestela@gmail.com>"]
+
+[dependencies]
+yaml-rust = "*"
+argparse = "*"
