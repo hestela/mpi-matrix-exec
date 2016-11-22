@@ -3,11 +3,13 @@ use std::fmt;
 use yaml_rust::yaml;
 use std::fs::File;
 use std::io::prelude::*;
+use mpi::Mpi;
 use yamlutils;
 
 pub struct MpiExec {
   name: String,
-  mpi: String,
+  work_dir: String,
+  mpis: Vec<Mpi>,
   env_vars: Vec<String>,
   run_opts: Vec<String>,
   np: Vec<String>
@@ -22,10 +24,13 @@ impl MpiExec {
 
     // Only using one document per yaml file at the moment.
     let yaml_doc = &yaml_data[0];
+    let mpirun_paths = yamlutils::get_yaml_vec(&yaml_doc["mpirun_paths"]).unwrap();
+    let mpis = mpirun_paths.iter().map(|path| Mpi::new(path.clone())).collect();
 
     MpiExec {
       name: yamlutils::get_yaml_str(&yaml_doc["Name"]).unwrap(),
-      mpi: yamlutils::get_yaml_str(&yaml_doc["MPI"]).unwrap(),
+      work_dir: yamlutils::get_yaml_str(&yaml_doc["work_dir"]).unwrap(),
+      mpis: mpis,
       env_vars: yamlutils::get_yaml_vec(&yaml_doc["envvars"]).unwrap(),
       run_opts: yamlutils::get_yaml_vec(&yaml_doc["runopts"]).unwrap(),
       np: yamlutils::get_yaml_vec(&yaml_doc["np"]).unwrap(),
@@ -35,7 +40,7 @@ impl MpiExec {
 
 impl fmt::Display for MpiExec {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "({}, {}, {:?}, {:?}, {:?})", self.name, self.mpi, self.env_vars,
-      self.run_opts, self.np)
+    write!(f, "({}, {}, {:?}, {:?}, {:?}, {:?})", self.name, self.work_dir,
+      self.mpis, self.env_vars, self.run_opts, self.np)
   }
 }

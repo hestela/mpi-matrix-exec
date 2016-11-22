@@ -3,6 +3,7 @@ extern crate yaml_rust;
 
 pub mod parse;
 pub mod mpiexec;
+pub mod mpi;
 pub mod cmderror;
 pub mod yamlutils;
 pub mod debug;
