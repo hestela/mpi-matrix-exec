@@ -1,5 +1,5 @@
 [package]
-name = "MpiMatrixExec"
+name = "mpi_matrix_exec"
 version = "0.1.0"
 authors = ["Henry Estela <henryestela@gmail.com>"]
 
